@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="TaskJDBC" />
+        <module name="PP_1_1_3-4_JDBC_Hibernate_first_try" />
+        <module name="PP_1_1_3-4_JDBC" />
         <module name="PP_1_1_3-4_JDBC_Hibernate" />
       </profile>
     </annotationProcessing>
