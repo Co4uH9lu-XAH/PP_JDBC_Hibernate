@@ -24,14 +24,21 @@ public class Main {
         }
 
         UserService userService = new UserServiceImpl();
-        userService.createUsersTable();
-        userList.stream().
-                forEach(x -> {userService.saveUser(x.getName(), x.getLastName(), x.getAge());
-                              System.out.printf("User с именем - %s добавлен в базу данных \n", x.getName());});
+        try {
+            userService.createUsersTable();
+            userList.stream().
+                    forEach(x -> {
+                        userService.saveUser(x.getName(), x.getLastName(), x.getAge());
+                        System.out.printf("User с именем - %s добавлен в базу данных \n", x.getName());
+                    });
 
-        //userService.getAllUsers().stream().forEach(System.out::println);
-        userService.cleanUsersTable();
-        userService.dropUsersTable();
-
+            userService.getAllUsers().stream().forEach(System.out::println);
+            userService.cleanUsersTable();
+            userService.dropUsersTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Util.getSessionFactory().close();
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -16,22 +17,28 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-
+        Session session = Util.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.createSQLQuery("CREATE TABLE IF NOT EXISTS users (id INT auto_increment primary key, name VARCHAR(50), lastname VARCHAR(50), age INT)")
+                .addEntity(User.class).executeUpdate();
+        session.getTransaction().commit();
     }
 
     @Override
     public void dropUsersTable() {
-
+        Session session = Util.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.createSQLQuery("DROP TABLE IF EXISTS users").executeUpdate();
+        session.getTransaction().commit();
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
         User user = new User(name, lastName, age);
         Session session = Util.getSessionFactory().getCurrentSession();
-        Transaction transaction = session.beginTransaction();
+        session.beginTransaction();
         session.save(user);
         session.getTransaction().commit();
-        session.close();
     }
 
     @Override
@@ -41,11 +48,19 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        List<User> users;
+        Session session = Util.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        users = session.createQuery("FROM User").getResultList();
+        session.getTransaction().commit();
+        return users;
     }
 
     @Override
     public void cleanUsersTable() {
-
+        Session session = Util.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.createQuery("delete User").executeUpdate();
+        session.getTransaction().commit();
     }
 }
