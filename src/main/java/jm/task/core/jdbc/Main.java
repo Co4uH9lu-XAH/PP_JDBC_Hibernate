@@ -3,6 +3,7 @@ package jm.task.core.jdbc;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
+import jm.task.core.jdbc.util.Util;
 
 
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ public class Main {
                 forEach(x -> {userService.saveUser(x.getName(), x.getLastName(), x.getAge());
                               System.out.printf("User с именем - %s добавлен в базу данных \n", x.getName());});
 
-        userService.getAllUsers().stream().forEach(System.out::println);
+        //userService.getAllUsers().stream().forEach(System.out::println);
         userService.cleanUsersTable();
         userService.dropUsersTable();
 
